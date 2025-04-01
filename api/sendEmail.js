@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         Authorization:
-          "Bearer mlsn.72f5e6cc779135cc5d53985b7dfd30c4ea07fb5c4e32d42910e5c7c1145a4f94",
+          "Bearer ${process.env.MAILERSEND_API_KEY}",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
