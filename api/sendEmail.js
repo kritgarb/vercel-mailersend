@@ -11,6 +11,12 @@ export default async function handler(req, res) {
       ? tipos.map((tipo) => `<li>✅ ${tipo}</li>`).join("")
       : `<li>✅ ${tipos}</li>`;
 
+    const dataFormatada = `${new Intl.DateTimeFormat("pt-BR", {
+      dateStyle: "short",
+    }).format(new Date(data))} às ${new Intl.DateTimeFormat("pt-BR", {
+      timeStyle: "short",
+    }).format(new Date(data))}`;
+
     const response = await fetch("https://api.mailersend.com/v1/email", {
       method: "POST",
       headers: {
@@ -34,7 +40,7 @@ export default async function handler(req, res) {
           <div style="font-family: Arial, sans-serif; padding: 10px;">
             <h2>🧾 Novo descarte cadastrado</h2>
             <p><strong>Nome:</strong> ${nome}</p>
-            <p><strong>Data:</strong> ${data}</p>
+            <p><strong>Data:</strong> ${dataFormatada}</p>
             <p><strong>Tipos:</strong></p>
             <ul style="padding-left: 20px; margin: 0;">
               ${tiposHtml}
