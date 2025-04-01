@@ -3,10 +3,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Método não permitido" });
   }
 
-  const { nome, tipo, data } = req.body;
-  console.log("Recebido:", { nome, tipo, data });
+  const { nome, tipos, data } = req.body;
+  console.log("Recebido:", { nome, tipos, data });
 
   try {
+    const tiposTexto = Array.isArray(tipos) ? tipos.join(", ") : tipos;
+
     const response = await fetch("https://api.mailersend.com/v1/email", {
       method: "POST",
       headers: {
@@ -26,12 +28,12 @@ export default async function handler(req, res) {
           },
         ],
         subject: "Novo descarte cadastrado",
-        text: `Novo descarte feito por: ${nome}\nTipo: ${tipo}\nData: ${data}`,
+        text: `Novo descarte feito por: ${nome}\nTipos: ${tiposTexto}\nData: ${data}`,
       }),
     });
 
     if (!response.ok) {
-      const errorText = await response.text(); 
+      const errorText = await response.text();
       console.error("Erro da MailerSend:", errorText);
       return res
         .status(response.status)
