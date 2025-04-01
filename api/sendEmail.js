@@ -30,14 +30,15 @@ export default async function handler(req, res) {
       }),
     });
 
-    const result = await response.json();
-
     if (!response.ok) {
-      console.error("Erro da MailerSend:", result);
-      return res.status(response.status).json({ error: "Erro ao enviar e-mail", result });
+      const errorText = await response.text(); 
+      console.error("Erro da MailerSend:", errorText);
+      return res
+        .status(response.status)
+        .json({ error: "Erro ao enviar e-mail", detalhe: errorText });
     }
 
-    return res.status(200).json({ status: "ok", result });
+    return res.status(202).json({ status: "e-mail aceito pela MailerSend" });
   } catch (error) {
     console.error("Erro inesperado:", error);
     return res.status(500).json({ error: "Erro interno ao enviar o e-mail" });
