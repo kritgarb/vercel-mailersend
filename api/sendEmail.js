@@ -7,7 +7,9 @@ export default async function handler(req, res) {
   console.log("Recebido:", { nome, tipos, data });
 
   try {
-    const tiposTexto = Array.isArray(tipos) ? tipos.join(", ") : tipos;
+    const tiposHtml = Array.isArray(tipos)
+      ? tipos.map((tipo) => `<li>✅ ${tipo}</li>`).join("")
+      : `<li>✅ ${tipos}</li>`;
 
     const response = await fetch("https://api.mailersend.com/v1/email", {
       method: "POST",
@@ -28,7 +30,17 @@ export default async function handler(req, res) {
           },
         ],
         subject: "Novo descarte cadastrado",
-        text: `Novo descarte feito por: ${nome}\nTipos: ${tiposTexto}\nData: ${data}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 10px;">
+            <h2>🧾 Novo descarte cadastrado</h2>
+            <p><strong>Nome:</strong> ${nome}</p>
+            <p><strong>Data:</strong> ${data}</p>
+            <p><strong>Tipos:</strong></p>
+            <ul style="padding-left: 20px; margin: 0;">
+              ${tiposHtml}
+            </ul>
+          </div>
+        `,
       }),
     });
 
