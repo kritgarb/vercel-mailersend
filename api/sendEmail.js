@@ -25,13 +25,13 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: {
-          email: "testeapi@trial-xkjn41m2pw04z781.mlsender.net",
-          name: "Seu App",
+          email: "tecnologia@reeeturn.com.br",
+          name: "REEETurn APP",
         },
         to: [
           {
-            email: "benjaminvieira@reeeturn.com.br",
-            name: "Equipe",
+            email: "gestão@reeeturn.com.br",
+            name: "Equipe de Gestão REEETurn",
           },
         ],
         subject: "Novo descarte cadastrado",
